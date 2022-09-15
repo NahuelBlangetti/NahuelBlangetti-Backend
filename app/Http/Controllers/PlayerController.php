@@ -19,7 +19,7 @@ class PlayerController extends Controller
     public function addItem(Request $request)
     {   
         if ($request->playerId != 1) {
-            
+
             $player = User::find($request->playerId);
             $itemAdd = Item::find($request->itemId);
     
@@ -93,8 +93,8 @@ class PlayerController extends Controller
                 if ($typeAtaque->id == 1) { // Ataque Cuerpo a Cuerpo
                     $atacante->ulti = true;
                     $atacante->save();
-    
-                    $victima->life = $cantDefensa -  $cantAtaque;
+                    
+                    $victima->life = ($cantDefensa - $cantAtaque) - 100;
                     $victima->save();
                 }
                 elseif ($typeAtaque->id == 2) { // Ataque A Distancia
@@ -103,7 +103,7 @@ class PlayerController extends Controller
                     $atacante->ulti = false;
                     $atacante->save();
     
-                    $victima->life = $cantDefensa - $ataqueTotal;
+                    $victima->life = ($cantDefensa - $ataqueTotal) - 100;
                     $victima->save();
                 }
                 elseif($typeAtaque->id == 3 && $atacante->ulti == true) { // Ataque "ULTI"
@@ -112,7 +112,7 @@ class PlayerController extends Controller
                     $atacante->ulti = false;
                     $atacante->save();
     
-                    $victima->life = $cantDefensa - $ataqueTotal;
+                    $victima->life =  ($cantDefensa - $ataqueTotal) - 100;
                     $victima->save();
                 }
                 else{
@@ -151,7 +151,7 @@ class PlayerController extends Controller
         $itemsV = $victima->item()->get();
         foreach($itemsV as $i) {
            if ($i->type == 2) {
-              $itemDefensa = $i->cant_defensa + 100;
+              $itemDefensa = $i->cant_defensa + 5;
            }
         }
         return $itemDefensa;
